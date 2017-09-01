@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+
+    <dimen name="cv_text_padding">8dp</dimen>
+
+    <dimen name="image_width">120dp</dimen>
+
+    <dimen name="appbar_height">280dp</dimen>
+
+    <dimen name="vp_detail_info_margin">4dp</dimen>
+    <dimen name="vp_detail_info_padding_left">32dp</dimen>
+
+
+</resources>

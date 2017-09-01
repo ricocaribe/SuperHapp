@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jmrp.superhapp.view.activities.SuperheroDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/appbar_height">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/superheroDetailMainImage"
+                style="@style/AppTheme.MainImage"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/superheroDetailCircImage"
+                android:layout_width="@dimen/image_width"
+                android:layout_height="@dimen/image_width"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="2dp"
+                style="@style/AppTheme.CircularImageView"/>
+
+            <TextView
+                android:id="@+id/superheroDetailName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AppTheme.TittleDetail"/>
+
+            <TextView
+                android:id="@+id/superheroDetailHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AppTheme.SubtittleDetail"/>
+
+        </FrameLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/superheroDetailInfoVp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/vp_detail_info_margin">
+        </android.support.v4.view.ViewPager>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

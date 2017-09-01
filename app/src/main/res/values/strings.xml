@@ -1,0 +1,20 @@
+<resources>
+
+
+    <string name="app_name">SuperHapp</string>
+
+
+    <!--Tittles-->
+    <string name="tv_title_detail_groups">Groups</string>
+    <string name="tv_title_detail_power">Power</string>
+    <string name="tv_title_detail_abilities">Abilities</string>
+
+
+    <!--Dialogs-->
+    <string name="tv_checking_superheros">Loading superheros…</string>
+
+
+    <!--Errors-->
+    <string name="error_something_wrong">Something went wrong, try again.</string>
+
+</resources>
