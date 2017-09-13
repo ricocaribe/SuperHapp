@@ -2,83 +2,74 @@ package com.jmrp.superhapp.view.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
 
-import com.google.gson.Gson;
-import com.jmrp.superhapp.IListSuperherosView;
-import com.jmrp.superhapp.R;
 import com.jmrp.superhapp.adapter.SuperherosAdapter;
+import com.jmrp.superhapp.interactor.MainInteractor;
+import com.jmrp.superhapp.R;
+import com.jmrp.superhapp.dagger.MainModule;
 import com.jmrp.superhapp.model.Superheros;
-import com.jmrp.superhapp.retrofit.SuperHappClient;
-import com.jmrp.superhapp.retrofit.SuperHappInterface;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements IListSuperherosView {
+import javax.inject.Inject;
 
+import dagger.ObjectGraph;
+
+public class MainActivity extends AppCompatActivity implements MainInteractor.MainView {
+
+    @Inject
+    MainInteractor.MainPresenter mainPresenter;
     private ProgressDialog pdChecking;
+    private RecyclerView rvSuperHeros;
+    private SuperherosAdapter superherosAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSuperheros();
+        // Inyecta las clases con Dagger. Esto solo lo tenemos aquí por simplicidad.
+        ObjectGraph objectGraph = ObjectGraph.create(new MainModule());
+        objectGraph.inject(this);
+
+        // Le dice al presenter cuál es su vista
+        mainPresenter.setVista(this);
+
+        configView();
+
+        mainPresenter.getSuperheros();
     }
 
 
-    private void getSuperheros(){
+    private void configView(){
+        pdChecking = new ProgressDialog(MainActivity.this);
+        rvSuperHeros = (RecyclerView) findViewById(R.id.rvSuperHeros);
+        rvSuperHeros.setHasFixedSize(true);
 
-        showProgress(getResources().getString(R.string.tv_checking_superheros));
+        GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        rvSuperHeros.setLayoutManager(layoutManager);
 
-        SuperHappClient.getSuperheros().create(SuperHappInterface.class).getSuperheros().enqueue(new Callback<Superheros>() {
-            @Override
-            public void onResponse(Call<Superheros> call, Response<Superheros> response) {
-
-                dismissProgress();
-
-                if(null!=response.body()) {
-
-                    Log.i(getClass().getSimpleName(), "Superheros: " + new Gson().toJson(response));
-
-                    RecyclerView rvSuperHeros = (RecyclerView) findViewById(R.id.rvSuperHeros);
-                    rvSuperHeros.setHasFixedSize(true);
-
-                    GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                    rvSuperHeros.setLayoutManager(layoutManager);
-                    SuperherosAdapter superherosAdapter = new SuperherosAdapter(MainActivity.this, response.body().superheros);
-                    rvSuperHeros.setAdapter(superherosAdapter);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Superheros> call, Throwable t) {
-                dismissProgress();
-                showAlert(getResources().getString(R.string.error_something_wrong));
-                call.cancel();
-                t.printStackTrace();
-            }
-        });
+        superherosAdapter = new SuperherosAdapter(mainPresenter);
     }
 
 
     @Override
-    public void showAlert(String message) {
+    public void showAlert() {
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle(getResources().getString(R.string.app_name));
-        alertDialog.setMessage(message);
+        alertDialog.setMessage(getResources().getString(R.string.error_something_wrong));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        getSuperheros();
+                        mainPresenter.getSuperheros();
                     }
                 });
         alertDialog.show();
@@ -86,16 +77,30 @@ public class MainActivity extends AppCompatActivity implements IListSuperherosVi
 
 
     @Override
-    public void showProgress(String message) {
-        if(pdChecking==null) pdChecking = new ProgressDialog(MainActivity.this);
+    public void showProgressDialog() {
         pdChecking.setCancelable(false);
-        pdChecking.setMessage(message);
+        pdChecking.setMessage(getResources().getString(R.string.tv_checking_superheros));
         pdChecking.show();
     }
 
 
     @Override
-    public void dismissProgress() {
+    public void dismissProgressDialog() {
         if(null!=pdChecking && pdChecking.isShowing()) pdChecking.dismiss();
+    }
+
+    @Override
+    public void setSuperherosAdapter(List<Superheros.Superhero> superheros) {
+        superherosAdapter.setSuperheros(superheros);
+        rvSuperHeros.setAdapter(superherosAdapter);
+    }
+
+    @Override
+    public void goSuperheroDetail(Superheros.Superhero superhero) {
+        Intent intent = new Intent(MainActivity.this, SuperheroDetailActivity.class);
+        intent.putExtra("superhero", superhero);
+        startActivity(intent);
+
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 }

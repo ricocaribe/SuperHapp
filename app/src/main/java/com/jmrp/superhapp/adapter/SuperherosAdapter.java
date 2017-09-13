@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jmrp.superhapp.R;
+import com.jmrp.superhapp.interactor.MainInteractor;
 import com.jmrp.superhapp.model.Superheros;
+import com.jmrp.superhapp.presenter.MainActivityPresenter;
 import com.jmrp.superhapp.view.activities.SuperheroDetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -21,14 +23,18 @@ import java.util.List;
 public class SuperherosAdapter extends RecyclerView.Adapter<SuperherosAdapter.ViewHolder> {
 
     private List<Superheros.Superhero> superheros;
-    private Activity activity;
+    private MainInteractor.MainPresenter mainPresenter;
 
-    public SuperherosAdapter(Activity act, List<Superheros.Superhero> superherosList) {
-        superheros = superherosList;
-        activity = act;
+    public SuperherosAdapter(MainInteractor.MainPresenter mainPresenter) {
+        this.mainPresenter = mainPresenter;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    public void setSuperheros(List<Superheros.Superhero> superheros) {
+        this.superheros = superheros;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder{
         TextView superheroName;
         ImageView superheroImage;
 
@@ -59,11 +65,7 @@ public class SuperherosAdapter extends RecyclerView.Adapter<SuperherosAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, SuperheroDetailActivity.class);
-                intent.putExtra("superhero", superheros.get(position));
-                activity.startActivity(intent);
-
-                activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                mainPresenter.goDetailActivity(superheros.get(position));
             }
         });
     }
