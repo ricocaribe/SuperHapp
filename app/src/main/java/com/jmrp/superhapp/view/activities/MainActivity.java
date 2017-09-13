@@ -8,9 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
-import com.jmrp.superhapp.adapter.SuperherosAdapter;
+import com.jmrp.superhapp.view.adapter.SuperherosAdapter;
 import com.jmrp.superhapp.interactor.MainInteractor;
 import com.jmrp.superhapp.R;
 import com.jmrp.superhapp.dagger.MainModule;

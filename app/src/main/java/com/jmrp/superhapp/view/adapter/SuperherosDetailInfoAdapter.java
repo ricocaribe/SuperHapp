@@ -1,4 +1,4 @@
-package com.jmrp.superhapp.adapter;
+package com.jmrp.superhapp.view.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

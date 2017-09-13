@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jmrp.superhapp.R;
-import com.jmrp.superhapp.adapter.SuperherosDetailInfoAdapter;
+import com.jmrp.superhapp.view.adapter.SuperherosDetailInfoAdapter;
 import com.jmrp.superhapp.model.Superheros;
 import com.jmrp.superhapp.utils.ZoomOutPageTransformer;
 import com.squareup.picasso.Picasso;

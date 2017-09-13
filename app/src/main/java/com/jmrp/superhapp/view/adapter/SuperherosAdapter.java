@@ -1,8 +1,5 @@
-package com.jmrp.superhapp.adapter;
+package com.jmrp.superhapp.view.adapter;
 
-import android.app.Activity;
-
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +10,6 @@ import android.widget.TextView;
 import com.jmrp.superhapp.R;
 import com.jmrp.superhapp.interactor.MainInteractor;
 import com.jmrp.superhapp.model.Superheros;
-import com.jmrp.superhapp.presenter.MainActivityPresenter;
-import com.jmrp.superhapp.view.activities.SuperheroDetailActivity;
 import com.squareup.picasso.Picasso;
 
 
