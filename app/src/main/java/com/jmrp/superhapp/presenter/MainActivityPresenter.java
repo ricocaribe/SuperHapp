@@ -1,7 +1,6 @@
 package com.jmrp.superhapp.presenter;
 
 
-import android.content.Intent;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -9,7 +8,6 @@ import com.jmrp.superhapp.interactor.MainInteractor;
 import com.jmrp.superhapp.model.Superheros;
 import com.jmrp.superhapp.retrofit.SuperHappClient;
 import com.jmrp.superhapp.retrofit.SuperHappInterface;
-import com.jmrp.superhapp.view.activities.SuperheroDetailActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,7 +17,6 @@ public class MainActivityPresenter implements MainInteractor.MainPresenter {
 
     private MainInteractor.MainView mainView;
 
-    // El presentador recibe su vista para devolverle cosas.
     @Override
     public void setVista(MainInteractor.MainView mainView) {
         this.mainView = mainView;

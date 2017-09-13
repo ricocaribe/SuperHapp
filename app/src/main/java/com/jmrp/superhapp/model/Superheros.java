@@ -14,7 +14,7 @@ public class Superheros implements Serializable{
         @SerializedName("name") public String name;
 
         @SerializedName("photo") public String photo;
-        
+
         @SerializedName("height") public String height;
 
         @SerializedName("abilities") public String abilities;
